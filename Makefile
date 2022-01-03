@@ -1,5 +1,5 @@
 # willcard = prend tout les fichiers *.c (variable propre au Makefile)
-SRCS = so_long.c
+SRCS = $(wildcard *.c)
 # OBJS = variable SRC modifiee avec .o au lieu de .c comme extension
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
@@ -10,13 +10,20 @@ NAME = so_long
 
 all : $(NAME)
 
-# %.o : %.c = Toutes les cibles *.o seront creees avec les dependances *.c
-# raccourci = .c.o comme nom de regle
+# Pour MacOS
+# %.o: %.c
+# 	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+
+# $(NAME): $(OBJS)
+# 	$(CC) $(OBJS) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+
+#Pour Linux
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+	$(CC) -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(OBJS) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) mlx_linux/*.o
+
 
 clean : 
 	rm -f $(OBJS)

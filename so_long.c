@@ -1,15 +1,19 @@
-#include <mlx.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
+/*   Updated: 2022/01/03 20:30:53 by v3r              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header.h"
 
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(img_data *data, int x, int y, int color)
 {
 	char	*dst;
 
@@ -17,74 +21,54 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void    carre(t_data img)
-{
-    int x;
-    int y;
 
-    x = -1;
-    while (++x != 60)
-    {
-        y = -1;
-        while (++y != 60)
-	        my_mlx_pixel_put(&img, 960 + x, 540 + y, 0x000000FF);
-    }
+int	key_hook(int keycode, m_vars *vars)
+{
+        printf("Keycode = %d // ascii = %c\n", keycode, keycode);
 }
 
-void    triangle_rectangle(t_data img)
-{
-    int x = 0;
-    int y = 0;
+// Sutilise avec NotionNotify (track la souris en x, y)
 
-    while (y < 60)
-    {
-        x = 0;
-        while (x != y)
-        {
-	        my_mlx_pixel_put(&img, 960 + x, 840 + y, 0x000000FF);
-            x++;
-        }
-        y++;
-    }
+int	mouse_move(int x, int y, m_vars *vars)
+{
+   printf("%d, %d\n", x, y);
+
 }
 
-void    triangle_isocele(t_data img)
+// S'utilise avec ButtonPress ou ButtonRelease (affiche la position x y lors du click)
+int	mouse_position(int keycode, int x, int y, m_vars *vars)
 {
+        if (keycode == 1)
+            printf("%d, %d\n", x, y);
+        else
+            printf("%d\n", keycode);
+}
 
-    int y;
-    int x;
 
-    y = 0;
-    while (y < 60)
-    {
-	    my_mlx_pixel_put(&img, 960 + y, 240 + y, 0x00FF0000);
-	    my_mlx_pixel_put(&img, 960 - y, 240 + y, 0x0000FF00);
-        if (y == 59)
-        {
-            x = y;
-            while (x-- != 0)
-        	    my_mlx_pixel_put(&img, 960 + x, 240 + y, 0x0000FF00);
-            while (x++ != y)
-        	    my_mlx_pixel_put(&img, 960 - x, 240 + y, 0x000000FF);
-        }
-        y++;
-    }
+int	closett(int keycode, m_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->mlx_win);
+	return (0);
 }
 
 int	main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
+    img_data	img;
+    m_vars      vars;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
+	vars.mlx = mlx_init();
+	vars.mlx_win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
+	img.img = mlx_new_image(vars.mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
     carre(img);
     triangle_rectangle(img);
     triangle_isocele(img);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx_put_image_to_window(vars.mlx, vars.mlx_win, img.img, 0, 0);
+    
+    // mlx_key_hook(vars.mlx_win, key_hook, &vars);
+    //  mlx_mouse_hook(vars.mlx_win, key_hook, &vars);
+	mlx_hook(vars.mlx_win, 6, 1L<<6, mouse_move, &vars);
+    mlx_loop(vars.mlx); 
+    return (0);
 }
