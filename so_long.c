@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/04 01:29:21 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/04 15:39:00 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ void    carre(img_data img)
 }
 
 
-int	key_hook(int keycode, m_vars *vars)
+int	exit_hook(int keycode, m_vars *vars)
 {
-        //printf("Keycode = %d // ascii = %c\n", keycode, keycode);
+    if (keycode == 65307 || keycode == 0)
+        exit(1);
+   printf("%d, ascii =  %c\n", keycode, keycode);
+    
 }
 
 // Sutilise avec NotionNotify (track la souris en x, y)
@@ -52,27 +55,26 @@ int	mouse_move(int x, int y, m_vars *vars)
 // S'utilise avec ButtonPress ou ButtonRelease (affiche la position x y lors du click)
 int	mouse_position(int keycode, int x, int y, m_vars *vars)
 {
-        if (keycode == 1)
+        if (keycode == 1 && x == 1904 && y == 10)
             printf("%d, %d\n", x, y);
         else
             printf("%d\n", keycode);
 }
 
 
-int	closett(int keycode, m_vars *vars)
-{
-	mlx_destroy_window(vars->mlx, vars->mlx_win);
-	return (0);
-}
+// int	closett(int keycode, m_vars *vars)
+// {
+// 	if (keycode == 65307)
+//         mlx_destroy_window(vars->mlx, vars->mlx_win);
+// 	return (0);
+// }
 
-int	ft_ps_random(void)
+int loophook(int hook)
 {
-	static int	seed = 3;
-
-	seed++;
-	if (seed > 1000)
-		seed = 3;
-	return (seed);
+    static int i = 0;
+    if(hook = 97)
+        i++;
+    return(i);
 }
 
 int	main(void)
@@ -90,11 +92,14 @@ int	main(void)
     // triangle_isocele(img);
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, img.img, 0, 200);
     
-    mlx_key_hook(vars.mlx_win, key_hook, &vars);
-    //  mlx_mouse_hook(vars.mlx_win, key_hook, &vars);
-	//mlx_hook(vars.mlx_win, 6, 1L<<6, mouse_move, &vars);
+    mlx_hook(vars.mlx_win, 17, 1L<<17, exit_hook, (void *)0);
+    mlx_key_hook(vars.mlx_win, exit_hook, &vars);
+    //mlx_mouse_hook(vars.mlx_win, key_hook, &vars);
+	//mlx_hook(vars.mlx_win, 8, 1L<<5, mouse_position, &vars);
     //triangle_isocele(img);
     mlx_loop_hook(vars.mlx, ft_ps_random, &vars);
+    mlx_hook(vars.mlx_win, 3, 1L<<1, exit_hook, &vars);
+   // mlx_key_hook(vars.mlx_win, key_hook, &vars);
     mlx_loop(vars.mlx); 
     return (0);
 }
