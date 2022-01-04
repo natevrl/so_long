@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/03 20:30:53 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/04 01:29:21 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,24 @@ void	my_mlx_pixel_put(img_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+void    carre(img_data img)
+{
+    int x;
+    int y;
+
+    x = -1;
+    while (++x != 60)
+    {
+        y = -1;
+        while (++y != 60)
+	        my_mlx_pixel_put(&img, 960 + x, 540 + y, 0x0000FF00);
+    }
+}
+
 
 int	key_hook(int keycode, m_vars *vars)
 {
-        printf("Keycode = %d // ascii = %c\n", keycode, keycode);
+        //printf("Keycode = %d // ascii = %c\n", keycode, keycode);
 }
 
 // Sutilise avec NotionNotify (track la souris en x, y)
@@ -51,6 +65,16 @@ int	closett(int keycode, m_vars *vars)
 	return (0);
 }
 
+int	ft_ps_random(void)
+{
+	static int	seed = 3;
+
+	seed++;
+	if (seed > 1000)
+		seed = 3;
+	return (seed);
+}
+
 int	main(void)
 {
     img_data	img;
@@ -62,13 +86,15 @@ int	main(void)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
     carre(img);
-    triangle_rectangle(img);
-    triangle_isocele(img);
-	mlx_put_image_to_window(vars.mlx, vars.mlx_win, img.img, 0, 0);
+    // triangle_rectangle(img);
+    // triangle_isocele(img);
+	mlx_put_image_to_window(vars.mlx, vars.mlx_win, img.img, 0, 200);
     
-    // mlx_key_hook(vars.mlx_win, key_hook, &vars);
+    mlx_key_hook(vars.mlx_win, key_hook, &vars);
     //  mlx_mouse_hook(vars.mlx_win, key_hook, &vars);
-	mlx_hook(vars.mlx_win, 6, 1L<<6, mouse_move, &vars);
+	//mlx_hook(vars.mlx_win, 6, 1L<<6, mouse_move, &vars);
+    //triangle_isocele(img);
+    mlx_loop_hook(vars.mlx, ft_ps_random, &vars);
     mlx_loop(vars.mlx); 
     return (0);
 }

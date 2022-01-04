@@ -6,25 +6,12 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:43:31 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/03 18:43:44 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/04 01:21:34 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void    carre(img_data img)
-{
-    int x;
-    int y;
-
-    x = -1;
-    while (++x != 60)
-    {
-        y = -1;
-        while (++y != 60)
-	        my_mlx_pixel_put(&img, 960 + x, 540 + y, 0x000000FF);
-    }
-}
 
 void    triangle_rectangle(img_data img)
 {
