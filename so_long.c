@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/04 15:39:00 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/10 22:39:11 by nbenhado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int loophook(int hook)
     return(i);
 }
 
+//!!!!!!!NE PAS OUBLIER DE FREE vars->mlx A LA FIN!!!!!!!
 int	main(void)
 {
     img_data	img;
