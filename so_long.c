@@ -35,30 +35,28 @@ void    carre(img_data img)
     }
 }
 
-
-int	exit_hook(int keycode, m_vars *vars)
-{
-    if (keycode == 65307 || keycode == 0)
-        exit(1);
-   printf("%d, ascii =  %c\n", keycode, keycode);
-    
-}
+// 65307 sur linux = ESC // 53 sur MAC
+// int	exit_hook(int keycode)
+// {
+//     if (keycode == 53)
+//         exit(1);
+//    printf("%d, ascii =  %c\n", keycode, keycode);
+// }
 
 // Sutilise avec NotionNotify (track la souris en x, y)
-
-int	mouse_move(int x, int y, m_vars *vars)
-{
-   printf("%d, %d\n", x, y);
-
-}
+// int	mouse_move(int x, int y, m_vars *vars)
+// {
+//    printf("%d, %d\n", x, y);
+// }
 
 // S'utilise avec ButtonPress ou ButtonRelease (affiche la position x y lors du click)
-int	mouse_position(int keycode, int x, int y, m_vars *vars)
+int	mouse_position(int keycode, int x, int y)
 {
         if (keycode == 1 && x == 1904 && y == 10)
             printf("%d, %d\n", x, y);
         else
             printf("%d\n", keycode);
+        return (0);
 }
 
 
@@ -69,38 +67,72 @@ int	mouse_position(int keycode, int x, int y, m_vars *vars)
 // 	return (0);
 // }
 
-int loophook(int hook)
+void    mapping(m_vars vars)
 {
-    static int i = 0;
-    if(hook = 97)
-        i++;
-    return(i);
+    int i;
+    int j = 0;
+    int y;
+    int x = 0;
+    map_s map;
+    
+    map.relative_path = "./ground5.xpm";
+	map.img = mlx_xpm_file_to_image(vars.mlx, map.relative_path, &map.img_width, &map.img_height);
+    while (j < 7)
+    {
+        i = 0;
+        y = 0;
+        while (i < 10)
+        {
+            mlx_put_image_to_window(vars.mlx, vars.mlx_win, map.img, y, x);
+            y += 128;
+            i++;
+        }
+        x += 128;
+        j++;
+    }
+}
+
+void    character(int x, int y)
+{
+    map_s character;
+    m_vars vars;
+
+    character.relative_path = "./stone1.xpm";
+	character.img = mlx_xpm_file_to_image(vars.mlx, character.relative_path, &character.img_width, &character.img_height);
+    mlx_put_image_to_window(vars.mlx, vars.mlx_win, character.img, x, y);
+}
+
+int avancer(int keycode)
+{
+    if (keycode == 125)
+    {
+        character(128, 128);
+    }
 }
 
 //!!!!!!!NE PAS OUBLIER DE FREE vars->mlx A LA FIN!!!!!!!
 int	main(void)
 {
-    img_data	img;
+ //   img_data	img_s;
     m_vars      vars;
+    //map_s       maps;
 
 	vars.mlx = mlx_init();
-	vars.mlx_win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(vars.mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	vars.mlx_win = mlx_new_window(vars.mlx, 1280, 720, "NbenhaGame");
 
-    carre(img);
-    // triangle_rectangle(img);
-    // triangle_isocele(img);
-	mlx_put_image_to_window(vars.mlx, vars.mlx_win, img.img, 0, 200);
+
+    mapping(vars);
+    //character(128, 128);
     
-    mlx_hook(vars.mlx_win, 17, 1L<<17, exit_hook, (void *)0);
-    mlx_key_hook(vars.mlx_win, exit_hook, &vars);
+    //img_s.img = mlx_new_image(vars.mlx, 1280, 720);
+	//img_s.addr = mlx_get_data_addr(img_s.img, &img_s.bits_per_pixel, &img_s.line_length, &img_s.endian);
+    //carre(img_s);
+    // mlx_hook(vars.mlx_win, 17, 1L<<17, exit_hook, (void *)0);
+    // mlx_key_hook(vars.mlx_win, exit_hook, &vars);
+    mlx_key_hook(vars.mlx_win, avancer, &vars);
     //mlx_mouse_hook(vars.mlx_win, key_hook, &vars);
 	//mlx_hook(vars.mlx_win, 8, 1L<<5, mouse_position, &vars);
-    //triangle_isocele(img);
-    mlx_loop_hook(vars.mlx, ft_ps_random, &vars);
-    mlx_hook(vars.mlx_win, 3, 1L<<1, exit_hook, &vars);
-   // mlx_key_hook(vars.mlx_win, key_hook, &vars);
+    // mlx_hook(vars.mlx_win, 3, 1L<<1, exit_hook, &vars);
     mlx_loop(vars.mlx); 
     return (0);
 }

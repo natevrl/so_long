@@ -35,6 +35,14 @@ typedef struct main_vars
 	void	*mlx_win;
 } m_vars;
 
+typedef struct mapping_s
+{
+	void	*img;
+	char	*relative_path;
+	int		img_width;
+	int		img_height;
+} map_s;
+
 int	closett(int keycode, m_vars *vars);
 
 void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
