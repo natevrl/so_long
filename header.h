@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/04 14:18:16 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/12 14:43:21 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,28 @@ typedef struct	s_data
 	int		endian;
 }				img_data;
 
-typedef struct main_vars
-{
-    void	*mlx;
-	void	*mlx_win;
-} m_vars;
-
-typedef struct mapping_s
+typedef struct s_img
 {
 	void	*img;
 	char	*relative_path;
 	int		img_width;
 	int		img_height;
-} map_s;
+} t_img;
 
-int	closett(int keycode, m_vars *vars);
+typedef struct s_mlx
+{
+    void	*mlx;
+	void	*mlx_win;
+	t_img	*maps;
+	t_img	*soldat;
+} t_mlx;
+
+
+
+int	closett(int keycode, t_mlx *vars);
 
 void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
-int	key_hook(int keycode, m_vars *vars);
+int	key_hook(int keycode, t_mlx *vars);
 void    carre(img_data img);
 void    triangle_rectangle(img_data img);
 void    triangle_isocele(img_data img);
