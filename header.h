@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/12 14:43:21 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/12 20:01:08 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_img
 	char	*relative_path;
 	int		img_width;
 	int		img_height;
+	int 	x;
+	int		y;
 } t_img;
 
 typedef struct s_mlx
