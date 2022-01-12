@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/12 20:01:08 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/12 21:53:38 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+# include <string.h>
+# include <errno.h>
 #include <mlx.h>
-
+#include "get_next_line/get_next_line.h"
+#include "libft/libft.h"
 
 
 typedef struct	s_data 

@@ -1,5 +1,7 @@
 # willcard = prend tout les fichiers *.c (variable propre au Makefile)
-SRCS = so_long.c
+SRCS = so_long.c\
+		get_next_line/get_next_line.c\
+		get_next_line/get_next_line_utils.c\
 # OBJS = variable SRC modifiee avec .o au lieu de .c comme extension
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
@@ -22,7 +24,8 @@ all : $(NAME)
 	$(CC) -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) mlx_linux/*.o
+	make -C libft/
+	$(CC) $(OBJS) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) mlx_linux/*.o libft/libft.a
 
 
 clean : 
