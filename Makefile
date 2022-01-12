@@ -30,6 +30,7 @@ $(NAME): $(OBJS)
 
 clean : 
 	rm -f $(OBJS)
+	make fclean -C libft
 
 fclean : clean
 	rm -f $(NAME)
