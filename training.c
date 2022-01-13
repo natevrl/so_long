@@ -1,30 +1,32 @@
-typedef struct s_base
-{
-    int y;
-    int x;
-} t_base;
-
-typedef struct s_training
-{
-    int test;
-    t_base *soldat;
-    t_base *maps;
-} t_training;
+#include "header.h"
 
 #include <stdio.h>
 int main()
 {
-    t_training pos;
-    t_base coord;
+    t_mlx      *vars;
+    printf("TEEEST");
 
-    pos.test = 777;
-    pos.soldat = &coord;
+    vars = malloc(sizeof(t_mlx));
+    if (vars == 0)
+        return (0);
+    vars->soldat = malloc(sizeof(t_img));
+
+	vars->mlx = mlx_init();
+	vars->mlx_win = mlx_new_window(vars->mlx, X_RESOLUTION, Y_RESOLUTION, "NbenhaGame");
+
+    vars->soldat->relative_path = "./character.xpm";
+	vars->soldat->img = mlx_xpm_file_to_image(vars->mlx, vars->soldat->relative_path, &vars->soldat->img_width, &vars->soldat->img_height);
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, 64, 64);
+
+	vars->soldat->img = mlx_xpm_file_to_image(vars->mlx, "./rock.xpm", &vars->soldat->img_width, &vars->soldat->img_height);
+
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, 256, 64);
+    sleep(2);
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, 0, 256, 64);
+    //mlx_destroy_image(vars->mlx, vars->soldat->img);
+    //mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, 512, 64);
 
 
 
-    coord.x = 10;
-    coord.y = 5;
-
-    printf("%d, %p // %d, %p\n", coord.x, &coord.x, pos.soldat->x, &pos.soldat->x);
-    return (0);
+    mlx_loop(vars->mlx);
 }

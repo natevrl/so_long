@@ -1,5 +1,6 @@
 # willcard = prend tout les fichiers *.c (variable propre au Makefile)
 SRCS = so_long.c\
+		main.c\
 		get_next_line/get_next_line.c\
 		get_next_line/get_next_line_utils.c\
 # OBJS = variable SRC modifiee avec .o au lieu de .c comme extension

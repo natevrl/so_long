@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/13 17:45:54 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/13 19:11:11 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct s_img
 
 typedef struct s_tuple
 {
-	int x[90];
-	int y[90];
+	int *x;
+	int *y;
 }	t_tuple;
 
 typedef struct s_coord
@@ -78,6 +78,9 @@ typedef struct s_mlx
 } t_mlx;
 
 
+
+void    moove_soldat(int keycode, t_mlx *vars);
+void    init_map(t_mlx *vars);
 
 int	closett(int keycode, t_mlx *vars);
 
