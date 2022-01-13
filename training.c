@@ -21,9 +21,14 @@ int main()
 	vars->soldat->img = mlx_xpm_file_to_image(vars->mlx, "./rock.xpm", &vars->soldat->img_width, &vars->soldat->img_height);
 
     mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, 256, 64);
+
+    mlx_destroy_image(vars->mlx, vars->soldat->img);
     sleep(2);
-    mlx_put_image_to_window(vars->mlx, vars->mlx_win, 0, 256, 64);
-    //mlx_destroy_image(vars->mlx, vars->soldat->img);
+	vars->soldat->img = mlx_xpm_file_to_image(vars->mlx, "./rock.xpm", &vars->soldat->img_width, &vars->soldat->img_height);
+
+
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, 256, 128);
+
     //mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, 512, 64);
 
 

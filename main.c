@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:36:54 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/13 19:23:38 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/13 23:17:51 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,12 @@ int	main(void)
     if (vars == 0)
         return (0);
     vars->soldat = malloc(sizeof(t_img));
-
     vars->maps = malloc(sizeof(t_img));
     vars->walls = malloc(sizeof(t_tuple));
 
-    
-    // vars->maps = 0;
-    // vars->soldat = 0;
     //init windows
 	vars->mlx = mlx_init();
 	vars->mlx_win = mlx_new_window(vars->mlx, X_RESOLUTION, Y_RESOLUTION, "NbenhaGame");
-
-    //init character
-    character.relative_path = "./character.xpm";
-	character.img = mlx_xpm_file_to_image(vars->mlx, character.relative_path, &character.img_width, &character.img_height);
-
-    //init liste chainee
-   // vars->maps = &map;
-    vars->soldat = &character;
 
     init_map(vars);
     printf("POS inside MAIN = %d, %d\n", vars->soldat->x, vars->soldat->y);

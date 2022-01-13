@@ -6,41 +6,11 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/13 19:53:50 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/13 23:30:56 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-
-void	my_mlx_pixel_put(img_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-void    carre(img_data img)
-{
-    int x;
-    int y;
-
-    x = -1;
-    while (++x != 60)
-    {
-        y = -1;
-        while (++y != 60)
-	        my_mlx_pixel_put(&img, 960 + x, 540 + y, 0x0000FF00);
-    }
-}
-
-// 65307 sur linux = ESC // 53 sur MAC
-int	event_hook(int keycode)
-{
-    if (keycode == 65307 || keycode == 0)
-        exit(1);
-}
 
 // Sutilise avec NotionNotify (track la souris en x, y)
 int	mouse_move(int x, int y, t_mlx *vars)
@@ -105,7 +75,7 @@ void    init_map(t_mlx *vars)
     while (++i < 10)
     {
         gnl = get_next_line(fd);
-        printf("%s", gnl);
+        printf("GNLLLL:%s", gnl);
         j = -1;
         x = 0;
         while (gnl[++j])
@@ -136,15 +106,24 @@ void    init_map(t_mlx *vars)
                 vars->soldat->relative_path = "./character.xpm";
                 vars->soldat->x = x;
                 vars->soldat->y = y;
-                printf("POS inside init_map = %d, %d", vars->soldat->x, vars->soldat->y);
-	            vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->soldat->relative_path, &vars->soldat->img_width, &vars->soldat->img_height); 
+                printf("POS inside init_map = %d, %d\n", vars->soldat->x, vars->soldat->y);
+	            vars->soldat->img = mlx_xpm_file_to_image(vars->mlx, vars->soldat->relative_path, &vars->soldat->img_width, &vars->soldat->img_height); 
+                mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, x, y);
+                printf("SOLDAT IMG: [%p]\n", vars->soldat->img);
+
             }
             else if (gnl[j] == '0')
             {
                 vars->maps->relative_path = "./center.xpm";
 	            vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->relative_path, &vars->maps->img_width, &vars->maps->img_height);    
             }
-            mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->maps->img, x, y);
+            // if (gnl[j] != '0')
+            if (gnl[j] != '\n' && gnl[j] != 'P')
+            {                
+                mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->maps->img, x, y);
+                mlx_destroy_image(vars->mlx, vars->maps->img);
+            }
+                //printf("[%p]", vars->maps->img);
             x += IMG_BITS;
         }
         y += IMG_BITS;
@@ -176,14 +155,33 @@ int is_obstacle(t_mlx *vars, int x, int y)
     return (0);
 }
 
+void    kill_all(t_mlx *vars)
+{
+    //free(vars->mlx_win);
+    mlx_destroy_image(vars->mlx, vars->soldat->img);
+    mlx_destroy_image(vars->mlx, vars->maps->img);
+    mlx_destroy_window(vars->mlx, vars->mlx_win);
+    mlx_destroy_display(vars->mlx);
+    free(vars->soldat);
+    free(vars->maps);
+    free(vars->walls->y);
+    free(vars->walls->x);
+    free(vars->walls);
+    free(vars->mlx);
+    free(vars);
+    exit(1);
+}
+
 void    moove_soldat(int keycode, t_mlx *vars)
 {    
     printf("POSS = %d, %d\n", vars->soldat->x, vars->soldat->y);
+    printf("SOLDAT PATH: %s\n", vars->soldat->relative_path);
+    printf("SOLDAT IMG: [%p]\n", vars->soldat->img);
+
     if (keycode == 65307 || keycode == 0)
-        exit(1);
-    printf("%s", vars->maps->relative_path);
+        kill_all(vars);
     mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->maps->img, vars->soldat->x, vars->soldat->y);
-    //mlx_destroy_image(vars->mlx_win,vars->soldat);
+    //mlx_destroy_image(vars->mlx_win,vars->soldat->img);
     if (keycode == RIGHT && !is_obstacle(vars, vars->soldat->x + IMG_BITS, vars->soldat->y))
     {    
         vars->soldat->x += IMG_BITS;
