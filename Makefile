@@ -21,11 +21,11 @@ all : $(NAME)
 
 #Pour Linux
 %.o: %.c
-	$(CC) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+	$(CC) -g -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 $(NAME): $(OBJS)
 	make -C libft/
-	$(CC) $(OBJS) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) mlx_linux/*.o libft/libft.a
+	$(CC) $(OBJS) -g -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) mlx_linux/*.o libft/libft.a
 
 
 clean : 

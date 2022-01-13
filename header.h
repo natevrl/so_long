@@ -6,23 +6,33 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/12 21:53:38 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/13 17:45:54 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
 # include <string.h>
 # include <errno.h>
-#include <mlx.h>
-#include "get_next_line/get_next_line.h"
-#include "libft/libft.h"
+# include <mlx.h>
+# include "get_next_line/get_next_line.h"
+# include "libft/libft.h"
 
+// resolution ecran et taille des images
+# define X_RESOLUTION 1088
+# define Y_RESOLUTION 320
+# define IMG_BITS 32
+
+// code ascii des touches WSAD
+# define UP 122
+# define DOWN 115
+# define LEFT 113
+# define RIGHT 100
 
 typedef struct	s_data 
 {
@@ -43,12 +53,28 @@ typedef struct s_img
 	int		y;
 } t_img;
 
+typedef struct s_tuple
+{
+	int x[90];
+	int y[90];
+}	t_tuple;
+
+typedef struct s_coord
+{
+	int x;
+	int y;
+}	t_coord;
+
+
 typedef struct s_mlx
 {
     void	*mlx;
 	void	*mlx_win;
 	t_img	*maps;
 	t_img	*soldat;
+	t_tuple	*walls;
+	//t_coord	*escape;
+	// t_tuple	*collecs;
 } t_mlx;
 
 
