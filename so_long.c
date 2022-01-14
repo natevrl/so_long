@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/13 23:30:56 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 01:51:07 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void    init_vars(t_mlx *vars)
 }
 
 //penser a proteger tout les mallocs
-void    init_tuple(t_mlx *vars, int len)
+void    init_tuples_walls(t_mlx *vars, int len)
 {
 
     vars->walls->x = malloc(sizeof(int) * len);
@@ -54,6 +54,28 @@ void    init_tuple(t_mlx *vars, int len)
         return ;
 }
 
+void    init_tuples_collecibles(t_mlx *vars, int len)
+{
+
+    vars->collectible->x = malloc(sizeof(int) * len);
+    if (vars->collectible->x == 0)
+        return ;
+    vars->collectible->y = malloc(sizeof(int) * len);
+    if (vars->collectible->y == 0)
+        return ;
+    vars->collectible->max = len;
+}
+
+// int number_of(t_mlx *vars, int fd)
+// {
+//     int *buffer;
+//     int ret;
+//     int size;
+
+//     buffer = malloc(sizeof(int) * ())
+//     read    
+// }
+
 void    init_map(t_mlx *vars)
 {
    	int fd;
@@ -63,6 +85,7 @@ void    init_map(t_mlx *vars)
     int x;
     int y = 0;
     int f = -1;
+    int k = -1;
 
 	fd = open("maps.ber", O_RDONLY);
 	if (fd == -1)
@@ -70,12 +93,14 @@ void    init_map(t_mlx *vars)
 		ft_putstr_fd("open() error", 1);
 		return ;
 	}
-    init_tuple(vars, 90);
+    init_tuples_walls(vars, 90);
+    init_tuples_collecibles(vars, 2);
+    printf("COLLECTIBLES NUMBER = %d", vars->collectible->max);
     i = -1;
     while (++i < 10)
     {
         gnl = get_next_line(fd);
-        printf("GNLLLL:%s", gnl);
+        printf("%s", gnl);
         j = -1;
         x = 0;
         while (gnl[++j])
@@ -92,6 +117,10 @@ void    init_map(t_mlx *vars)
             {
                 vars->maps->relative_path = "./collectible.xpm";
 	            vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->relative_path, &vars->maps->img_width, &vars->maps->img_height); 
+                vars->collectible->x[++k] = x;
+                vars->collectible->y[k] = y;
+                printf("-------COLLECTIBLE[%d] pos: %dx, %dy\n", f, vars->collectible->x[k], vars->collectible->y[k]);
+
             }
             else if(gnl[j] == 'E')
             {
@@ -133,27 +162,6 @@ void    init_map(t_mlx *vars)
 	vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->relative_path, &vars->maps->img_width, &vars->maps->img_height);
 }
 
-int is_obstacle(t_mlx *vars, int x, int y)
-{
-    int i = 1;
-
-    if (x == vars->walls->x[0] && y == vars->walls->y[0])
-    {
-        printf("ITS THE ESCAPE");
-        mlx_destroy_image(vars->mlx, vars->soldat->img);
-        return (1);
-    }
-    while (i < 90)
-    {
-        if (x == vars->walls->x[i] && y == vars->walls->y[i])
-        {
-            printf("ITS A WALL PUTAIN");
-            return(1);
-        }
-        i++;
-    }
-    return (0);
-}
 
 void    kill_all(t_mlx *vars)
 {
@@ -167,10 +175,49 @@ void    kill_all(t_mlx *vars)
     free(vars->walls->y);
     free(vars->walls->x);
     free(vars->walls);
+    free(vars->collectible->y);
+    free(vars->collectible->x);
+    free(vars->collectible);
     free(vars->mlx);
     free(vars);
     exit(1);
 }
+
+int is_obstacle(t_mlx *vars, int x, int y)
+{
+    int i = 0;
+
+    if (x == vars->walls->x[0] && y == vars->walls->y[0])
+    {
+        if (vars->collectible->max == 0)
+            kill_all(vars);
+        else
+            return (1);
+    }
+    while (i < 2)
+    {
+        if (x == vars->collectible->x[i] && y == vars->collectible->y[i])
+        {
+            vars->collectible->max -= 1;
+            printf("---COLLECTIBLE RESTANT = [%d]", vars->collectible->max);
+            return (0);
+        }
+        i++;
+    }
+    i = 1;
+    while (i < 89)
+    {
+        if (x == vars->walls->x[i] && y == vars->walls->y[i])
+        {
+            printf("ITS A WALL PUTAIN");
+            return(1);
+        }
+        i++;
+    }
+    return (0);
+}
+
+
 
 void    moove_soldat(int keycode, t_mlx *vars)
 {    

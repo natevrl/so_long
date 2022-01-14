@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:36:54 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/13 23:17:51 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 01:28:03 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	main(void)
     vars->soldat = malloc(sizeof(t_img));
     vars->maps = malloc(sizeof(t_img));
     vars->walls = malloc(sizeof(t_tuple));
+    vars->collectible = malloc(sizeof(t_tuple));
+    
 
     //init windows
 	vars->mlx = mlx_init();

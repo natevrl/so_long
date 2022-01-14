@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/13 19:11:11 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 01:25:27 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_tuple
 {
 	int *x;
 	int *y;
+	int max;
 }	t_tuple;
 
 typedef struct s_coord
@@ -73,8 +74,8 @@ typedef struct s_mlx
 	t_img	*maps;
 	t_img	*soldat;
 	t_tuple	*walls;
+	t_tuple	*collectible;
 	//t_coord	*escape;
-	// t_tuple	*collecs;
 } t_mlx;
 
 
