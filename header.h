@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 15:50:47 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 16:39:32 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ typedef struct s_mlx
 
 
 
-void    moove_soldat(int keycode, t_mlx *vars);
+int    moove_soldat(int keycode, t_mlx *vars);
 void    init_map(t_mlx *vars, char *str);
+int   kill_hook(int keycode, t_mlx *vars);
 
 int	closett(int keycode, t_mlx *vars);
 
@@ -84,6 +85,7 @@ void    carre(img_data img);
 void    triangle_rectangle(img_data img);
 void    triangle_isocele(img_data img);
 void	number_of(t_mlx *vars, char *str);
+
 
 
 
