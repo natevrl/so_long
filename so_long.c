@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 01:51:07 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 15:28:56 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,41 +42,70 @@ void    init_vars(t_mlx *vars)
     vars = malloc(sizeof(t_mlx));
 }
 
-//penser a proteger tout les mallocs
-void    init_tuples_walls(t_mlx *vars, int len)
-{
 
-    vars->walls->x = malloc(sizeof(int) * len);
+
+void    number_of(t_mlx *vars, char *str)
+{
+    char buffer[1000];
+    int ret;
+    int i;
+    int fd;
+
+	fd = open(str, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("open() error", 1);
+		return ;
+	}
+    vars->collectible->max = 0;
+    vars->walls->max = 0;
+    vars->win_width = 0;
+    vars->win_height = 0;
+    ret = 1;
+    ret = read(fd, buffer, 999);
+    buffer[ret] = '\0';
+    
+    i = -1;
+    while (buffer[++i])
+    {
+        if (buffer[i] == 'C')   
+            vars->collectible->max += 1;
+        else if (buffer[i] == '1')
+            vars->walls->max += 1;
+        if (buffer[i] == '\n')
+            vars->win_height += 1;
+    }
+    vars->win_width = (i - 1) / vars->win_height;
+    close(fd);        
+}
+
+//penser a proteger tout les mallocs
+void    init_tuples_walls(t_mlx *vars)
+{
+    //vars->walls->max = 90;
+    vars->walls->x = malloc(sizeof(int) * vars->walls->max);
     if (vars->walls->x == 0)
         return ;
-    vars->walls->y = malloc(sizeof(int) * len);
+    vars->walls->y = malloc(sizeof(int) * vars->walls->max);
     if (vars->walls->y == 0)
         return ;
 }
 
-void    init_tuples_collecibles(t_mlx *vars, int len)
+void    init_tuples_collecibles(t_mlx *vars)
 {
 
-    vars->collectible->x = malloc(sizeof(int) * len);
+
+    // vars->collectible->max = 2;
+    vars->collectible->x = malloc(sizeof(int) * vars->collectible->max);
     if (vars->collectible->x == 0)
         return ;
-    vars->collectible->y = malloc(sizeof(int) * len);
+    vars->collectible->y = malloc(sizeof(int) * vars->collectible->max);
     if (vars->collectible->y == 0)
         return ;
-    vars->collectible->max = len;
 }
 
-// int number_of(t_mlx *vars, int fd)
-// {
-//     int *buffer;
-//     int ret;
-//     int size;
 
-//     buffer = malloc(sizeof(int) * ())
-//     read    
-// }
-
-void    init_map(t_mlx *vars)
+void    init_map(t_mlx *vars, char *str)
 {
    	int fd;
     char *gnl;
@@ -87,17 +116,20 @@ void    init_map(t_mlx *vars)
     int f = -1;
     int k = -1;
 
-	fd = open("maps.ber", O_RDONLY);
+	fd = open(str, O_RDONLY);
 	if (fd == -1)
 	{
 		ft_putstr_fd("open() error", 1);
 		return ;
 	}
-    init_tuples_walls(vars, 90);
-    init_tuples_collecibles(vars, 2);
-    printf("COLLECTIBLES NUMBER = %d", vars->collectible->max);
+    init_tuples_walls(vars);
+    init_tuples_collecibles(vars);
+    printf("LEN COLLECTIBLE: %d\n", vars->collectible->max);
+    printf("LEN walls: %d\n", vars->walls->max);
+    printf("LEN HEIGHT WINDOW: %d\n", vars->win_height);
+    printf("LEN WIDHT WINDOW: %d\n", vars->win_width);
     i = -1;
-    while (++i < 10)
+    while (++i < vars->win_height)
     {
         gnl = get_next_line(fd);
         printf("%s", gnl);
@@ -160,6 +192,7 @@ void    init_map(t_mlx *vars)
     }
     vars->maps->relative_path = "center.xpm";
 	vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->relative_path, &vars->maps->img_width, &vars->maps->img_height);
+    close(fd);  
 }
 
 
@@ -186,26 +219,29 @@ void    kill_all(t_mlx *vars)
 int is_obstacle(t_mlx *vars, int x, int y)
 {
     int i = 0;
+    static int recup = 0;
 
     if (x == vars->walls->x[0] && y == vars->walls->y[0])
     {
-        if (vars->collectible->max == 0)
+        if (recup == vars->collectible->max)
             kill_all(vars);
         else
             return (1);
     }
-    while (i < 2)
+    while (i < vars->collectible->max)
     {
         if (x == vars->collectible->x[i] && y == vars->collectible->y[i])
         {
-            vars->collectible->max -= 1;
-            printf("---COLLECTIBLE RESTANT = [%d]", vars->collectible->max);
+            recup++;
+            vars->collectible->x[i] = 0;
+            vars->collectible->y[i] = 0;
+            printf("---COLLECTIBLE RAMASSE = [%d/%d]\n", recup, vars->collectible->max);
             return (0);
         }
         i++;
     }
     i = 1;
-    while (i < 89)
+    while (i < vars->walls->max)
     {
         if (x == vars->walls->x[i] && y == vars->walls->y[i])
         {
@@ -221,9 +257,9 @@ int is_obstacle(t_mlx *vars, int x, int y)
 
 void    moove_soldat(int keycode, t_mlx *vars)
 {    
-    printf("POSS = %d, %d\n", vars->soldat->x, vars->soldat->y);
-    printf("SOLDAT PATH: %s\n", vars->soldat->relative_path);
-    printf("SOLDAT IMG: [%p]\n", vars->soldat->img);
+    // printf("POSS = %d, %d\n", vars->soldat->x, vars->soldat->y);
+    // printf("SOLDAT PATH: %s\n", vars->soldat->relative_path);
+    // printf("SOLDAT IMG: [%p]\n", vars->soldat->img);
 
     if (keycode == 65307 || keycode == 0)
         kill_all(vars);

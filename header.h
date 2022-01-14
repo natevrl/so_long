@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 01:25:27 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 15:50:47 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@
 # include "get_next_line/get_next_line.h"
 # include "libft/libft.h"
 
-// resolution ecran et taille des images
-# define X_RESOLUTION 1088
-# define Y_RESOLUTION 320
-# define IMG_BITS 32
 
+# define IMG_BITS 32
 // code ascii des touches WSAD
 # define UP 122
 # define DOWN 115
@@ -60,15 +57,11 @@ typedef struct s_tuple
 	int max;
 }	t_tuple;
 
-typedef struct s_coord
-{
-	int x;
-	int y;
-}	t_coord;
-
 
 typedef struct s_mlx
 {
+	int		win_height;
+	int		win_width;
     void	*mlx;
 	void	*mlx_win;
 	t_img	*maps;
@@ -81,7 +74,7 @@ typedef struct s_mlx
 
 
 void    moove_soldat(int keycode, t_mlx *vars);
-void    init_map(t_mlx *vars);
+void    init_map(t_mlx *vars, char *str);
 
 int	closett(int keycode, t_mlx *vars);
 
@@ -90,6 +83,9 @@ int	key_hook(int keycode, t_mlx *vars);
 void    carre(img_data img);
 void    triangle_rectangle(img_data img);
 void    triangle_isocele(img_data img);
+void	number_of(t_mlx *vars, char *str);
+
+
 
 
 #endif
