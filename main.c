@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:36:54 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 17:33:32 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 20:30:07 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void    put_ground(t_mlx *vars, int x, int y)
 }
 void    put_player(t_mlx *vars, int x, int y)
 {
-    vars->soldat->x = x;
-    vars->soldat->y = y;
-    vars->soldat->relative_path = "./character.xpm";
-    vars->soldat->img = mlx_xpm_file_to_image(vars->mlx, vars->soldat->relative_path, &vars->soldat->img_width, &vars->soldat->img_height); 
-    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, x, y);
+    vars->player->x = x;
+    vars->player->y = y;
+    vars->player->relative_path = "./character.xpm";
+    vars->player->img = mlx_xpm_file_to_image(vars->mlx, vars->player->relative_path, &vars->player->img_width, &vars->player->img_height); 
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player->img, x, y);
 }
 
 void    put_collectible(t_mlx *vars, int x, int y)
@@ -161,13 +161,14 @@ t_mlx   *init_all(char *path)
     vars = malloc(sizeof(t_mlx));
     if (vars == 0)
         return (NULL);
-    vars->soldat = malloc(sizeof(t_img));
+    vars->player = malloc(sizeof(t_img));
     vars->maps = malloc(sizeof(t_img));
     vars->walls = malloc(sizeof(t_tuple));
     vars->collectible = malloc(sizeof(t_tuple));
-    if (!vars->walls || !vars->soldat || !vars->maps || !vars->collectible)
+    if (!vars->walls || !vars->player || !vars->maps || !vars->collectible)
         return (NULL);
     vars->collectible->max = 0;
+    vars->collectible->nb_looted = 0;
     vars->walls->max = 0;
     vars->win_width = 0;
     vars->win_height = 0;
@@ -191,8 +192,8 @@ int	main(int ac, char **av)
     }
     vars = init_all(av[1]);
 
-    mlx_hook(vars->mlx_win, 17, 1L<<17, moove_soldat, vars);
-  	mlx_hook(vars->mlx_win, 2, 1L << 0, moove_soldat, vars);
+    mlx_hook(vars->mlx_win, 17, 1L<<17, moove_player, vars);
+  	mlx_hook(vars->mlx_win, 2, 1L << 0, moove_player, vars);
     mlx_loop(vars->mlx);
     return (0);
 }

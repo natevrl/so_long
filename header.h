@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 16:39:32 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 20:29:36 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 
 # define IMG_BITS 32
-// code ascii des touches WSAD
+// code ascii des touches WASD
 # define UP 122
 # define DOWN 115
 # define LEFT 113
@@ -55,6 +55,7 @@ typedef struct s_tuple
 	int *x;
 	int *y;
 	int max;
+	int	nb_looted;
 }	t_tuple;
 
 
@@ -65,7 +66,7 @@ typedef struct s_mlx
     void	*mlx;
 	void	*mlx_win;
 	t_img	*maps;
-	t_img	*soldat;
+	t_img	*player;
 	t_tuple	*walls;
 	t_tuple	*collectible;
 	//t_coord	*escape;
@@ -73,7 +74,7 @@ typedef struct s_mlx
 
 
 
-int    moove_soldat(int keycode, t_mlx *vars);
+int    moove_player(int keycode, t_mlx *vars);
 void    init_map(t_mlx *vars, char *str);
 int   kill_hook(int keycode, t_mlx *vars);
 

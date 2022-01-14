@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 17:35:31 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/14 20:31:15 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int	mouse_position(int keycode, int x, int y)
 void    kill_all(t_mlx *vars)
 {
 
-        mlx_destroy_image(vars->mlx, vars->soldat->img);
+        mlx_destroy_image(vars->mlx, vars->player->img);
         mlx_destroy_image(vars->mlx, vars->maps->img);
         mlx_destroy_window(vars->mlx, vars->mlx_win);
         mlx_destroy_display(vars->mlx);
-        free(vars->soldat);
+        free(vars->player);
         free(vars->maps);
         free(vars->walls->y);
         free(vars->walls->x);
@@ -67,79 +67,81 @@ void    kill_all(t_mlx *vars)
     exit(0);
 }
 
-int is_obstacle(t_mlx *vars, int x, int y)
-{
-    int i = 0;
-    static int recup = 0;
-
-    if (x == vars->walls->x[0] && y == vars->walls->y[0])
-    {
-        if (recup == vars->collectible->max)
-            kill_all(vars);
-        else
-            return (1);
-    }
-    while (i < vars->collectible->max)
-    {
-        if (x == vars->collectible->x[i] && y == vars->collectible->y[i])
-        {
-            recup++;
-            vars->collectible->x[i] = 0;
-            vars->collectible->y[i] = 0;
-            printf("---COLLECTIBLE RAMASSE = [%d/%d]\n", recup, vars->collectible->max);
-            return (0);
-        }
-        i++;
-    }
-    i = 1;
-    while (i < vars->walls->max)
-    {
-        if (x == vars->walls->x[i] && y == vars->walls->y[i])
-        {
-            printf("ITS A WALL PUTAIN");
-            return(1);
-        }
-        i++;
-    }
-    return (0);
-}
-
 void    compteur_de_pas()
 {
-    static int i = 0;
+    static int i = 1;
     printf("%d\n", i);
     i++;
 }
 
-int    moove_soldat(int keycode, t_mlx *vars)
-{    
-    // printf("POSS = %d, %d\n", vars->soldat->x, vars->soldat->y);
-    // printf("SOLDAT PATH: %s\n", vars->soldat->relative_path);
-    // printf("SOLDAT IMG: [%p]\n", vars->soldat->img);
+int is_wall(t_mlx *vars, int x, int y)
+{
+    int i;
 
+    i = 0;
+    while (++i < vars->walls->max)
+        if (x == vars->walls->x[i] && y == vars->walls->y[i])
+            return(1);
+    return (0);   
+}
+
+int is_escape(t_mlx *vars, int x, int y)
+{
+    if (x == vars->walls->x[0] && y == vars->walls->y[0])
+    {
+        if (vars->collectible->nb_looted == vars->collectible->max)
+        {
+            compteur_de_pas();            
+            kill_all(vars);
+        }
+        else
+            return (1);
+    }
+    return (0);
+}
+void is_collectible(t_mlx *vars, int x, int y)
+{
+    int i;
+    
+    i = 0;
+    while (i < vars->collectible->max)
+    {
+        if (x == vars->collectible->x[i] && y == vars->collectible->y[i])
+        {
+            vars->collectible->nb_looted++;
+            vars->collectible->x[i] = 0;
+            vars->collectible->y[i] = 0;
+            printf("---COLLECTIBLE RAMASSE = [%d/%d]\n", vars->collectible->max, vars->collectible->max);
+        }
+        i++;
+    }
+}
+
+int ucango(t_mlx *vars, int x, int y)
+{
+    if (is_wall(vars, x, y))
+        return (0);
+    if (is_escape(vars, x, y))
+        return (0);
+    is_collectible(vars, x, y);
+    compteur_de_pas();
+    return (1);
+}
+
+int    moove_player(int keycode, t_mlx *vars)
+{    
     if (keycode == 65307 || keycode == 0)
         kill_all(vars);
-    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->maps->img, vars->soldat->x, vars->soldat->y);
-    //mlx_destroy_image(vars->mlx_win,vars->soldat->img);
-    if (keycode == RIGHT && !is_obstacle(vars, vars->soldat->x + IMG_BITS, vars->soldat->y))
-    {    
-        vars->soldat->x += IMG_BITS;
-    }    
-    if (keycode == LEFT && !is_obstacle(vars, vars->soldat->x - IMG_BITS, vars->soldat->y))
-    {
-        vars->soldat->x -= IMG_BITS;
-    }
-    if (keycode == UP && !is_obstacle(vars, vars->soldat->x, vars->soldat->y - IMG_BITS))
-    {
-        vars->soldat->y -= IMG_BITS;
-    }
-    if (keycode == DOWN && !is_obstacle(vars, vars->soldat->x, vars->soldat->y + IMG_BITS))
-    {
-        vars->soldat->y += IMG_BITS;
-    }
-    printf("pos: %dx, %dy // ", vars->soldat->x, vars->soldat->y);
-    printf("ascii: [%d]\n", keycode);
-    compteur_de_pas();
-    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->soldat->img, vars->soldat->x, vars->soldat->y);
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->maps->img, vars->player->x, vars->player->y);
+    //mlx_destroy_image(vars->mlx_win,vars->player->img);
+    if (keycode == RIGHT && ucango(vars, vars->player->x + IMG_BITS, vars->player->y))
+        vars->player->x += IMG_BITS;   
+    if (keycode == LEFT && ucango(vars, vars->player->x - IMG_BITS, vars->player->y))
+        vars->player->x -= IMG_BITS;
+    if (keycode == UP && ucango(vars, vars->player->x, vars->player->y - IMG_BITS))
+        vars->player->y -= IMG_BITS;
+    if (keycode == DOWN && ucango(vars, vars->player->x, vars->player->y + IMG_BITS))
+        vars->player->y += IMG_BITS;
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player->img, vars->player->x, vars->player->y);
     return (0);
 }
