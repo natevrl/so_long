@@ -1,15 +1,22 @@
-SRCS = game/so_long.c\
+SRCS =	game/kill.c\
+		game/map_put_tiles.c\
+		game/moove_detection.c\
+		game/init_game.c\
 		game/main.c\
+		game/maps.c\
+		game/player_moove.c\
 		libs/get_next_line/get_next_line.c\
 		libs/get_next_line/get_next_line_utils.c\
 
-OBJS = $(SRCS:.c=.o)
-LIBFT = libs/libft/libft.a
-MINILIBX = minilibx-linux/obj/*.o
 
-CC = gcc
-CFLAGS = -Wall -Werror -Wextra
-NAME = so_long
+OBJS		= $(SRCS:.c=.o)
+LIBFT		= libs/libft/libft.a
+MINILIBX	= minilibx-linux/obj/*.o
+
+
+CC			= gcc
+CFLAGS		= -Wall -Werror -Wextra
+NAME		= so_long
 
 all : $(NAME)
 

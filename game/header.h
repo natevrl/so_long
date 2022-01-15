@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 22:14:52 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/15 01:33:04 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,25 @@ typedef struct s_mlx
 
 
 
-int    moove_player(int keycode, t_mlx *vars);
+
+t_mlx   *init_all(char *path);
 void    init_map(t_mlx *vars, char *str);
-int   kill_hook(int keycode, t_mlx *vars);
+void    init_tuples_walls(t_mlx *vars);
+void    init_tuples_collecibles(t_mlx *vars);
 
-void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
-int	key_hook(int keycode, t_mlx *vars);
-void    carre(img_data img);
-void    triangle_rectangle(img_data img);
-void    triangle_isocele(img_data img);
-void	number_of(t_mlx *vars, char *str);
+void    put_wall(t_mlx *vars, int x, int y);
+void    put_ground(t_mlx *vars, int x, int y);
+void    put_collectible(t_mlx *vars, int x, int y);
+void    put_escape(t_mlx *vars, int x, int y);
+void    put_player(t_mlx *vars, int x, int y);
 
-
-
-
+void    number_of(t_mlx *vars, char *str);
+void    kill_all(t_mlx *vars);
+void    compteur_de_pas();
+int is_wall(t_mlx *vars, int x, int y);
+void is_collectible(t_mlx *vars, int x, int y);
+int is_escape(t_mlx *vars, int x, int y);
+int ucango(t_mlx *vars, int x, int y);
+int    moove_player(int keycode, t_mlx *vars);
 
 #endif
