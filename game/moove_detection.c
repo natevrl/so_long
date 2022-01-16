@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:46:37 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/14 22:58:25 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/16 23:32:26 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int is_escape(t_mlx *vars, int x, int y)
         if (vars->collectible->nb_looted == vars->collectible->max)
         {
             compteur_de_pas();            
-            kill_all(vars);
+            mlx_loop_end(vars->mlx);
         }
         else
             return (1);
@@ -57,7 +57,6 @@ void is_collectible(t_mlx *vars, int x, int y)
             vars->collectible->nb_looted++;
             vars->collectible->x[i] = 0;
             vars->collectible->y[i] = 0;
-            printf("---COLLECTIBLE RAMASSE = [%d/%d]\n", vars->collectible->nb_looted, vars->collectible->max);
         }
         i++;
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbenhado <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 16:56:32 by nbenhado          #+#    #+#             */
-/*   Updated: 2021/12/07 16:56:47 by nbenhado         ###   ########.fr       */
+/*   Updated: 2022/01/16 17:12:22 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,4 @@ void	*freee(char **tmp, char **new_line)
 	free(*new_line);
 	return (NULL);
 }
+

@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/15 01:33:04 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/16 23:53:13 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_img
 	int		img_height;
 	int 	x;
 	int		y;
+	int		starting_position;
 } t_img;
 
 typedef struct s_tuple
@@ -63,6 +64,8 @@ typedef struct s_mlx
 {
 	int		win_height;
 	int		win_width;
+	int		is_player;
+	int		is_escape;
     void	*mlx;
 	void	*mlx_win;
 	t_img	*maps;
@@ -77,6 +80,7 @@ typedef struct s_mlx
 
 t_mlx   *init_all(char *path);
 void    init_map(t_mlx *vars, char *str);
+void    map_size(t_mlx *vars, char *str);
 void    init_tuples_walls(t_mlx *vars);
 void    init_tuples_collecibles(t_mlx *vars);
 

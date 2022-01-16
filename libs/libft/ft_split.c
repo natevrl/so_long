@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 16:20:16 by nbenhado          #+#    #+#             */
-/*   Updated: 2022/01/14 23:06:14 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/16 23:06:31 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	next_c(char const *str, int debut, char c)
 	return (i);
 }
 
-static int	map_parsing_tabs(char const *str, char c)
+static int	map_size_tabs(char const *str, char c)
 {
 	int	i;
 	int	number;
@@ -82,7 +82,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	tab_de_tab = malloc(sizeof(char *) * (map_parsing_tabs(s, c) + 1));
+	tab_de_tab = malloc(sizeof(char *) * (map_size_tabs(s, c) + 1));
 	if (!tab_de_tab)
 		return (0);
 	i = 0;

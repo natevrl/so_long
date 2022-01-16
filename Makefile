@@ -29,12 +29,12 @@ all : $(NAME)
 
 #Pour Linux
 %.o: %.c
-	$(CC) -g -I/usr/include -Imlx_linux -O3 -c $< -o $@
+	$(CC) ${CFLAGS} -g -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 $(NAME): $(OBJS)
 	make -C libs/libft/
 	make -C minilibx-linux
-	$(CC) $(OBJS) -g -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) ${MINILIBX} ${LIBFT}
+	$(CC)  $(OBJS) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) ${MINILIBX} ${LIBFT}
 
 
 clean : 
