@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 16:41:26 by nbenhado          #+#    #+#             */
-/*   Updated: 2022/01/16 17:53:53 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 22:44:27 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 	{
 		read_return = read(fd, buffer, BUFFER_SIZE);
 		if (read_return == -1)
-			return (free_and_return(buffer, NULL));
+			return (free_and_return(buffer, tmp));
 		buffer[read_return] = '\0';
 		tmp = ftstrjoin(tmp, buffer);
 	}

@@ -6,13 +6,13 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:46:37 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:38:11 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 21:57:53 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	compteur_de_pas(void)
+static void	compteur_de_pas(void)
 {
 	static int	i = 1;
 
@@ -20,7 +20,7 @@ void	compteur_de_pas(void)
 	i++;
 }
 
-int	is_wall(t_mlx *vars, int x, int y)
+static int	is_wall(t_mlx *vars, int x, int y)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ int	is_wall(t_mlx *vars, int x, int y)
 	return (0);
 }
 
-int	is_escape(t_mlx *vars, int x, int y)
+static int	is_escape(t_mlx *vars, int x, int y)
 {
 	if (x == vars->walls->x[0] && y == vars->walls->y[0])
 	{
@@ -46,7 +46,7 @@ int	is_escape(t_mlx *vars, int x, int y)
 	return (0);
 }
 
-void	is_collectible(t_mlx *vars, int x, int y)
+static void	is_collectible(t_mlx *vars, int x, int y)
 {
 	int	i;
 

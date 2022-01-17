@@ -6,19 +6,20 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:41:09 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:52:41 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 22:57:14 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 // calcule la resolution de la map et le nombre de walls & collectibles
-// check si la map contient le bon nombre d'element
-void	count_elements(t_mlx *vars, char *buffer)
+// check si la map contient le bon nombre d'elements
+static void	count_elements(t_mlx *vars, char *buffer)
 {
 	int	i;
 
 	i = 0;
+	printf("%c\n", buffer[i]);
 	while (buffer[i])
 	{
 		if (buffer[i] == 'C')
@@ -29,6 +30,8 @@ void	count_elements(t_mlx *vars, char *buffer)
 			vars->is_player++;
 		else if (buffer[i] == 'E')
 			vars->is_escape++;
+		else if (buffer[i] != '\n' && buffer[i] != '0')
+			invalid_map_error(vars);
 		if (buffer[i] == '\n' || buffer[i + 1] == '\0')
 			vars->win_height++;
 		i++;
@@ -41,20 +44,28 @@ void	count_elements(t_mlx *vars, char *buffer)
 
 void	map_parsing(t_mlx *vars, char *str)
 {
-	char	buffer[32400];
+	char	buffer[BUFF_SIZE];
+	char	*all_maps;
 	int		ret;
 	int		fd;
 
 	fd = open(str, O_RDONLY);
 	check_open_error(vars, fd);
-	ret = read(fd, buffer, 32400);
-	check_read_error(vars, ret);
-	buffer[ret] = '\0';
-	count_elements(vars, buffer);
+	ret = 1;
+	all_maps = 0;
+	while (ret > 0)
+	{
+		ret = read(fd, buffer, BUFF_SIZE);
+		check_read_error(vars, ret, all_maps);
+		buffer[ret] = '\0';
+		all_maps = ftstrjoin(all_maps, buffer);
+	}
+	count_elements(vars, all_maps);
+	free(all_maps);
 	close(fd);
 }
 
-void	draw_line(t_mlx *vars, char *gnl)
+static void	draw_line(t_mlx *vars, char *gnl)
 {
 	int			i;
 	int			x;
@@ -91,8 +102,11 @@ void	map_drawer(t_mlx *vars, char *str)
 	check_open_error(vars, fd);
 	line = 1;
 	error = 0;
-	while ((gnl = get_next_line(fd)))
+	while (1)
 	{
+		gnl = get_next_line(fd);
+		if (!gnl)
+			break ;
 		if (line_bad_len(vars, gnl) || walls_error(vars, line, gnl))
 			error++;
 		draw_line(vars, gnl);
@@ -101,7 +115,7 @@ void	map_drawer(t_mlx *vars, char *str)
 	vars->maps->r_path = "./images/center.xpm";
 	vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->r_path,
 			&vars->maps->img_width, &vars->maps->img_height);
-	close(fd);
 	if (error > 0)
 		invalid_map_error(vars);
+	close(fd);
 }

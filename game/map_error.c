@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 19:33:44 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:33:53 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 21:22:59 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ int	walls_error(t_mlx *vars, int line, char *gnl)
 			if (gnl[i] != '1')
 				return (1);
 	}
-	else
-	{
-		if (gnl[0] != '1' || gnl[ft_strlen(gnl) - 2] != '1')
-			return (1);
-	}
+	else if (gnl[0] != '1' || gnl[ft_strlen(gnl) - 2] != '1')
+		return (1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:36:54 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:39:14 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 22:57:06 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,10 @@
 4 - nest pas un dossier .ber
 5 - arguments == 2
 6 - les lignes font la meme taille
+7 - AUTRE que 1, 0, P, E, C
 */
 
-// RESTE A FAIRE :
-
-// ---- 10: gerer le kill_all a la perfection
-// ---- 11: gerer les static function et header a la perfection
-// ---- 12: gerer le close(fd)
-// ---- 13: se decider pour la taille du buffer
-// ---- 9 : Norminer
-
-int	isnot_ber(char *str)
+static int	isnot_ber(char *str)
 {
 	size_t	begin;
 
@@ -43,12 +36,12 @@ int	main(int ac, char **av)
 {
 	if (ac != 2)
 	{
-		printf("Invalid number of arguments");
+		printf("Error\nInvalid number of arguments");
 		return (0);
 	}
 	if (isnot_ber(av[1]) != 0)
 	{
-		printf("Invalid map name\n");
+		printf("Error\nInvalid map name\n");
 		return (0);
 	}
 	game_driver(av[1]);

@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:51:22 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 22:50:48 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <mlx.h>
 # include "../libs/get_next_line/get_next_line.h"
 # include "../libs/libft/libft.h"
-
 
 # define IMG_BITS 32
 
@@ -50,7 +49,7 @@ typedef struct s_img
 	char	*r_path;
 	int		img_width;
 	int		img_height;
-	int 	x;
+	int		x;
 	int		y;
 	int		starting_position;
 }	t_img;
@@ -78,33 +77,37 @@ typedef struct s_mlx
 }	t_mlx;
 
 void	game_driver(char *path);
-void	malloc_tabs_of_xy(t_mlx *vars);
+void	kill_all(t_mlx *vars);
+
+// map & parsing
+void	number_of(t_mlx *vars, char *str);
 void	map_drawer(t_mlx *vars, char *str);
 void	map_parsing(t_mlx *vars, char *path);
 
+// player
+int		ucango(t_mlx *vars, int x, int y);
+int		moove_player(int keycode, t_mlx *vars);
+
+// put sprites
 void	put_wall(t_mlx *vars, int x, int y);
 void	put_ground(t_mlx *vars, int x, int y);
 void	put_collectible(t_mlx *vars, int x, int y);
 void	put_escape(t_mlx *vars, int x, int y);
 void	put_player(t_mlx *vars, int x, int y);
 
-void	number_of(t_mlx *vars, char *str);
-void	kill_all(t_mlx *vars);
-void	compteur_de_pas(void);
-int		is_wall(t_mlx *vars, int x, int y);
-void	is_collectible(t_mlx *vars, int x, int y);
-int		is_escape(t_mlx *vars, int x, int y);
-int		ucango(t_mlx *vars, int x, int y);
-int		moove_player(int keycode, t_mlx *vars);
-
 //error
 void	malloc_error(t_mlx *vars);
 void	invalid_map_error(t_mlx *vars);
 void	check_open_error(t_mlx *vars, int fd);
-void	check_read_error(t_mlx *vars, int ret);
+void	check_read_error(t_mlx *vars, int ret, char *str);
 int		walls_error(t_mlx *vars, int line, char *gnl);
 int		line_bad_len(t_mlx *vars, char *gnl);
 
 //utils
 int		intstrlen(char *str);
+
+# ifndef BUFF_SIZE
+#  define BUFF_SIZE 10
+# endif
+
 #endif
