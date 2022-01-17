@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:36:54 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 01:33:49 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 01:37:04 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 // ---- 3 : Parser la map, la rendre valide 
 // ---- 5 : close(fd) dans le kil_all ?? car il se close jamais si erreur avant init_map
 // ---- 6 : error si path n'est pas un .ber
+// ---- 7 : gerer le qwerty et mettre les fleches en +
 // ---- 4 : Norminer
 
 int	main(int ac, char **av)
