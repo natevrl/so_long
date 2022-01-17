@@ -7,6 +7,7 @@ SRCS =	game/kill.c\
 		game/player_moove.c\
 		game/error.c\
 		game/utils.c\
+		game/map_error.c\
 		libs/get_next_line/get_next_line.c\
 		libs/get_next_line/get_next_line_utils.c\
 

@@ -6,18 +6,18 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 19:06:01 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:06:08 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 19:34:50 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int intstrlen(char *str)
+int	intstrlen(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }

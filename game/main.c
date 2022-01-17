@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:36:54 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:08:55 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 19:39:14 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,31 @@
 // ---- 10: gerer le kill_all a la perfection
 // ---- 11: gerer les static function et header a la perfection
 // ---- 12: gerer le close(fd)
+// ---- 13: se decider pour la taille du buffer
 // ---- 9 : Norminer
 
-int isnot_ber(char *str)
+int	isnot_ber(char *str)
 {
-  size_t  begin;
+	size_t	begin;
 
-  begin = ft_strlen(str) - 4;
-  if (ft_strncmp(str + begin, ".ber", 4) != 0)
-    return (1);
-  return (0);
+	begin = ft_strlen(str) - 4;
+	if (ft_strncmp(str + begin, ".ber", 4) != 0)
+		return (1);
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
-
-
-    if (ac != 2)
-    {
-        printf("Invalid number of arguments");
-        return (0);
-    }
-    if (isnot_ber(av[1]) != 0)
-    {
-        printf("Invalid map name\n");
-        return (0);
-    }
-    game_driver(av[1]);
-    return (0);
+	if (ac != 2)
+	{
+		printf("Invalid number of arguments");
+		return (0);
+	}
+	if (isnot_ber(av[1]) != 0)
+	{
+		printf("Invalid map name\n");
+		return (0);
+	}
+	game_driver(av[1]);
+	return (0);
 }

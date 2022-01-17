@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:06:34 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 19:51:22 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,19 @@
 typedef struct s_img
 {
 	void	*img;
-	char	*relative_path;
+	char	*r_path;
 	int		img_width;
 	int		img_height;
 	int 	x;
 	int		y;
 	int		starting_position;
-} t_img;
+}	t_img;
 
 typedef struct s_tuple
 {
-	int *x;
-	int *y;
-	int max;
+	int	*x;
+	int	*y;
+	int	max;
 	int	nb_looted;
 }	t_tuple;
 
@@ -69,36 +69,33 @@ typedef struct s_mlx
 	int		win_width;
 	int		is_player;
 	int		is_escape;
-    void	*mlx;
+	void	*mlx;
 	void	*mlx_win;
 	t_img	*maps;
 	t_img	*player;
 	t_tuple	*walls;
 	t_tuple	*collectible;
-	//t_coord	*escape;
-} t_mlx;
+}	t_mlx;
 
+void	game_driver(char *path);
+void	malloc_tabs_of_xy(t_mlx *vars);
+void	map_drawer(t_mlx *vars, char *str);
+void	map_parsing(t_mlx *vars, char *path);
 
-void    game_driver(char *path);
-void    malloc_tabs_of_xy(t_mlx *vars);
-void    map_drawer(t_mlx *vars, char *str);
-void    map_parsing(t_mlx *vars, char *path);
+void	put_wall(t_mlx *vars, int x, int y);
+void	put_ground(t_mlx *vars, int x, int y);
+void	put_collectible(t_mlx *vars, int x, int y);
+void	put_escape(t_mlx *vars, int x, int y);
+void	put_player(t_mlx *vars, int x, int y);
 
-
-void    put_wall(t_mlx *vars, int x, int y);
-void    put_ground(t_mlx *vars, int x, int y);
-void    put_collectible(t_mlx *vars, int x, int y);
-void    put_escape(t_mlx *vars, int x, int y);
-void    put_player(t_mlx *vars, int x, int y);
-
-void    number_of(t_mlx *vars, char *str);
-void    kill_all(t_mlx *vars);
-void    compteur_de_pas();
-int is_wall(t_mlx *vars, int x, int y);
-void is_collectible(t_mlx *vars, int x, int y);
-int is_escape(t_mlx *vars, int x, int y);
-int ucango(t_mlx *vars, int x, int y);
-int    moove_player(int keycode, t_mlx *vars);
+void	number_of(t_mlx *vars, char *str);
+void	kill_all(t_mlx *vars);
+void	compteur_de_pas(void);
+int		is_wall(t_mlx *vars, int x, int y);
+void	is_collectible(t_mlx *vars, int x, int y);
+int		is_escape(t_mlx *vars, int x, int y);
+int		ucango(t_mlx *vars, int x, int y);
+int		moove_player(int keycode, t_mlx *vars);
 
 //error
 void	malloc_error(t_mlx *vars);
@@ -109,5 +106,5 @@ int		walls_error(t_mlx *vars, int line, char *gnl);
 int		line_bad_len(t_mlx *vars, char *gnl);
 
 //utils
-int intstrlen(char *str);
+int		intstrlen(char *str);
 #endif
