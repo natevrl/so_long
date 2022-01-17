@@ -6,13 +6,13 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:46:37 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 21:57:53 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 23:49:56 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void	compteur_de_pas(void)
+void	compteur_de_pas(void)
 {
 	static int	i = 1;
 
@@ -20,7 +20,7 @@ static void	compteur_de_pas(void)
 	i++;
 }
 
-static int	is_wall(t_mlx *vars, int x, int y)
+int	is_wall(t_mlx *vars, int x, int y)
 {
 	int	i;
 
@@ -31,11 +31,11 @@ static int	is_wall(t_mlx *vars, int x, int y)
 	return (0);
 }
 
-static int	is_escape(t_mlx *vars, int x, int y)
+int	is_escape(t_mlx *vars, int x, int y)
 {
 	if (x == vars->walls->x[0] && y == vars->walls->y[0])
 	{
-		if (vars->collectible->nb_looted == vars->collectible->max)
+		if (vars->collectible->touched == vars->collectible->max)
 		{
 			compteur_de_pas();
 			mlx_loop_end(vars->mlx);
@@ -46,7 +46,7 @@ static int	is_escape(t_mlx *vars, int x, int y)
 	return (0);
 }
 
-static void	is_collectible(t_mlx *vars, int x, int y)
+void	is_collectible(t_mlx *vars, int x, int y)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ static void	is_collectible(t_mlx *vars, int x, int y)
 	{
 		if (x == vars->collectible->x[i] && y == vars->collectible->y[i])
 		{
-			vars->collectible->nb_looted++;
+			vars->collectible->touched++;
 			vars->collectible->x[i] = 0;
 			vars->collectible->y[i] = 0;
 		}
@@ -63,13 +63,26 @@ static void	is_collectible(t_mlx *vars, int x, int y)
 	}
 }
 
-int	ucango(t_mlx *vars, int x, int y)
+int	is_enemies(t_mlx *vars, int x, int y)
 {
-	if (is_wall(vars, x, y))
-		return (0);
-	if (is_escape(vars, x, y))
-		return (0);
-	is_collectible(vars, x, y);
-	compteur_de_pas();
-	return (1);
+	int	i;
+
+	i = 0;
+	while (i < vars->enemies->max)
+	{
+		if (x == vars->enemies->x[i] && y == vars->enemies->y[i])
+		{
+			mlx_destroy_image(vars->mlx, vars->player->img);
+			vars->player->r_path = "./images/enemies.xpm";
+			vars->player->img = mlx_xpm_file_to_image(vars->mlx,
+					vars->player->r_path, &vars->player->img_width,
+					&vars->player->img_height);
+			mlx_put_image_to_window(vars->mlx, vars->mlx_win,
+				vars->player->img, x, y);
+			vars->enemies->touched = 1;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }

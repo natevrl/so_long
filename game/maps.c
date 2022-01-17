@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:41:09 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 22:57:14 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 23:42:35 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ static void	count_elements(t_mlx *vars, char *buffer)
 	int	i;
 
 	i = 0;
-	printf("%c\n", buffer[i]);
 	while (buffer[i])
 	{
 		if (buffer[i] == 'C')
 			vars->collectible->max++;
 		else if (buffer[i] == '1')
 			vars->walls->max++;
+		else if (buffer[i] == 'N')
+			vars->enemies->max++;
 		else if (buffer[i] == 'P')
 			vars->is_player++;
 		else if (buffer[i] == 'E')
@@ -85,6 +86,8 @@ static void	draw_line(t_mlx *vars, char *gnl)
 			put_player(vars, x, y);
 		else if (gnl[i] == '0')
 			put_ground(vars, x, y);
+		else if (gnl[i] == 'N')
+			put_enemies(vars, x, y);
 		x += IMG_BITS;
 	}
 	y += IMG_BITS;

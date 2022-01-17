@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 22:50:48 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 23:49:49 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_tuple
 	int	*x;
 	int	*y;
 	int	max;
-	int	nb_looted;
+	int	touched;
 }	t_tuple;
 
 typedef struct s_mlx
@@ -74,6 +74,7 @@ typedef struct s_mlx
 	t_img	*player;
 	t_tuple	*walls;
 	t_tuple	*collectible;
+	t_tuple	*enemies;
 }	t_mlx;
 
 void	game_driver(char *path);
@@ -84,8 +85,12 @@ void	number_of(t_mlx *vars, char *str);
 void	map_drawer(t_mlx *vars, char *str);
 void	map_parsing(t_mlx *vars, char *path);
 
-// player
-int		ucango(t_mlx *vars, int x, int y);
+// player & detections
+void	compteur_de_pas(void);
+int		is_wall(t_mlx *vars, int x, int y);
+int		is_escape(t_mlx *vars, int x, int y);
+void	is_collectible(t_mlx *vars, int x, int y);
+int		is_enemies(t_mlx *vars, int x, int y);
 int		moove_player(int keycode, t_mlx *vars);
 
 // put sprites
@@ -94,6 +99,7 @@ void	put_ground(t_mlx *vars, int x, int y);
 void	put_collectible(t_mlx *vars, int x, int y);
 void	put_escape(t_mlx *vars, int x, int y);
 void	put_player(t_mlx *vars, int x, int y);
+void	put_enemies(t_mlx *vars, int x, int y);
 
 //error
 void	malloc_error(t_mlx *vars);

@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:41:03 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 22:26:46 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 23:40:05 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ static void	malloc_tabs_of_xy(t_mlx *vars)
 	vars->collectible->y = malloc(sizeof(int) * vars->collectible->max);
 	if (vars->collectible->y == 0)
 		malloc_error(vars);
+	vars->enemies->x = malloc(sizeof(int) * vars->enemies->max);
+	if (vars->collectible->x == 0)
+		malloc_error(vars);
+	vars->enemies->y = malloc(sizeof(int) * vars->enemies->max);
+	if (vars->collectible->y == 0)
+		malloc_error(vars);
 }
 
 static void	malloc_struct(t_mlx *vars)
@@ -42,6 +48,9 @@ static void	malloc_struct(t_mlx *vars)
 	vars->collectible = malloc(sizeof(t_tuple));
 	if (vars->collectible == 0)
 		malloc_error(vars);
+	vars->enemies = malloc(sizeof(t_tuple));
+	if (vars->enemies == 0)
+		malloc_error(vars);
 }
 
 static void	init_struct(t_mlx *vars)
@@ -49,7 +58,7 @@ static void	init_struct(t_mlx *vars)
 	vars->is_escape = 0;
 	vars->is_player = 0;
 	vars->collectible->max = 0;
-	vars->collectible->nb_looted = 0;
+	vars->collectible->touched = 0;
 	vars->walls->max = 0;
 	vars->win_width = 0;
 	vars->win_height = 0;
@@ -60,6 +69,10 @@ static void	init_struct(t_mlx *vars)
 	vars->walls->x = 0;
 	vars->collectible->x = 0;
 	vars->collectible->y = 0;
+	vars->enemies->max = 0;
+	vars->enemies->touched = 0;
+	vars->enemies->x = 0;
+	vars->enemies->y = 0;
 }
 
 void	game_driver(char *path)

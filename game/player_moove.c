@@ -6,11 +6,26 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 19:36:01 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 23:47:40 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+static int	ucango(t_mlx *vars, int x, int y)
+{
+	if (vars->enemies->touched == 1)
+		return (0);
+	if (is_wall(vars, x, y))
+		return (0);
+	if (is_enemies(vars, x, y))
+		return (0);
+	if (is_escape(vars, x, y))
+		return (0);
+	is_collectible(vars, x, y);
+	compteur_de_pas();
+	return (1);
+}
 
 int	moove_player(int keycode, t_mlx *vars)
 {

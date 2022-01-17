@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:47:17 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 22:26:09 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 23:31:08 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ static void	kill_window(t_mlx *vars)
 			mlx_destroy_window(vars->mlx, vars->mlx_win);
 		mlx_destroy_display(vars->mlx);
 	}
+}
+
+static void	kill_enemies(t_mlx *vars)
+{
+	if (vars->enemies->y)
+		free(vars->enemies->y);
+	if (vars->enemies->x)
+		free(vars->enemies->x);
+	if (vars->enemies)
+		free(vars->enemies);
 }
 
 void	kill_all(t_mlx *vars)
@@ -45,6 +55,7 @@ void	kill_all(t_mlx *vars)
 		free(vars->collectible->x);
 	if (vars->collectible)
 		free(vars->collectible);
+	kill_enemies(vars);
 	if (vars->mlx)
 		free(vars->mlx);
 	if (vars)
