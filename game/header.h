@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 00:37:08 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 19:06:34 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,24 @@
 
 
 # define IMG_BITS 32
-// code ascii des touches WASD
-# define UP 122
+
+// code ascii des touches ZQSD (azerty)
+// # define UP 122
+// # define DOWN 115
+// # define LEFT 113
+// # define RIGHT 100
+
+// code ascii des touches WASD (qwerty)
+# define UP 119
 # define DOWN 115
-# define LEFT 113
+# define LEFT 97
 # define RIGHT 100
 
-typedef struct	s_data 
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				img_data;
+// ascii des fleches du clavier
+# define UPA 65362
+# define DOWNA 65364
+# define LEFTA 65361
+# define RIGHTA 65363
 
 typedef struct s_img
 {
@@ -59,7 +63,6 @@ typedef struct s_tuple
 	int	nb_looted;
 }	t_tuple;
 
-
 typedef struct s_mlx
 {
 	int		win_height;
@@ -76,13 +79,11 @@ typedef struct s_mlx
 } t_mlx;
 
 
+void    game_driver(char *path);
+void    malloc_tabs_of_xy(t_mlx *vars);
+void    map_drawer(t_mlx *vars, char *str);
+void    map_parsing(t_mlx *vars, char *path);
 
-
-t_mlx   *init_all(char *path);
-void    init_map(t_mlx *vars, char *str);
-void    map_size(t_mlx *vars, char *path);
-void    init_tuples_walls(t_mlx *vars);
-void    init_tuples_collecibles(t_mlx *vars);
 
 void    put_wall(t_mlx *vars, int x, int y);
 void    put_ground(t_mlx *vars, int x, int y);
@@ -99,4 +100,14 @@ int is_escape(t_mlx *vars, int x, int y);
 int ucango(t_mlx *vars, int x, int y);
 int    moove_player(int keycode, t_mlx *vars);
 
+//error
+void	malloc_error(t_mlx *vars);
+void	invalid_map_error(t_mlx *vars);
+void	check_open_error(t_mlx *vars, int fd);
+void	check_read_error(t_mlx *vars, int ret);
+int		walls_error(t_mlx *vars, int line, char *gnl);
+int		line_bad_len(t_mlx *vars, char *gnl);
+
+//utils
+int intstrlen(char *str);
 #endif

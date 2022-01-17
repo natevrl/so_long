@@ -6,46 +6,47 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:41:03 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 00:02:09 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 19:00:49 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-//penser a proteger tout les mallocs
-void    init_tuples_walls(t_mlx *vars)
+
+void    malloc_tabs_of_xy(t_mlx *vars)
 {
     vars->walls->x = malloc(sizeof(int) * vars->walls->max);
     if (vars->walls->x == 0)
-        return ;
+        malloc_error(vars);
     vars->walls->y = malloc(sizeof(int) * vars->walls->max);
     if (vars->walls->y == 0)
-        return ;
-}
-
-void    init_tuples_collecibles(t_mlx *vars)
-{
+        malloc_error(vars);
     vars->collectible->x = malloc(sizeof(int) * vars->collectible->max);
     if (vars->collectible->x == 0)
-        return ;
+        malloc_error(vars);
     vars->collectible->y = malloc(sizeof(int) * vars->collectible->max);
     if (vars->collectible->y == 0)
-        return ;
+        malloc_error(vars);
 }
 
-t_mlx   *init_all(char *path)
+void   malloc_struct(t_mlx *vars)
 {
-    t_mlx *vars;
-    
-    vars = malloc(sizeof(t_mlx));
-    if (vars == 0)
-        return (NULL);
     vars->player = malloc(sizeof(t_img));
+    if (vars->player == 0)
+        malloc_error(vars);
     vars->maps = malloc(sizeof(t_img));
+    if (vars->maps == 0)
+        malloc_error(vars);
     vars->walls = malloc(sizeof(t_tuple));
+    if (vars->walls == 0)
+        malloc_error(vars);
     vars->collectible = malloc(sizeof(t_tuple));
-    if (!vars->walls || !vars->player || !vars->maps || !vars->collectible)
-        return (NULL);
+    if (vars->collectible == 0)
+        malloc_error(vars);
+}
+
+void    init_struct(t_mlx *vars)
+{
     vars->is_escape = 0;
     vars->is_player = 0;
     vars->collectible->max = 0;
@@ -56,11 +57,28 @@ t_mlx   *init_all(char *path)
     vars->mlx = 0;
     vars->player->img = 0;
     vars->player->img = 0;
+    vars->walls->y = 0;
+    vars->walls->x = 0;
+    vars->collectible->x = 0;
+    vars->collectible->y = 0;
+}
+    
+void    game_driver(char *path)
+{
+    t_mlx *vars;
 
-    map_size(vars, path);
+    vars = malloc(sizeof(t_mlx));
+    if (vars == 0)
+        malloc_error(vars);
+    malloc_struct(vars);
+    init_struct(vars);
+    map_parsing(vars, path);
+    malloc_tabs_of_xy(vars);
 	vars->mlx = mlx_init();
-	vars->mlx_win = mlx_new_window(vars->mlx, IMG_BITS * vars->win_width, IMG_BITS * vars->win_height, "NbenhaGame");
-
-    init_map(vars, path);
-    return (vars);
+	vars->mlx_win = mlx_new_window(vars->mlx, IMG_BITS * vars->win_width, IMG_BITS * vars->win_height, "so_long");
+    map_drawer(vars, path);
+    mlx_hook(vars->mlx_win, 2, 1L<<0, moove_player, vars);
+    mlx_hook(vars->mlx_win, 17, 1L<<17, mlx_loop_end, vars->mlx);
+    mlx_loop(vars->mlx);
+    kill_all(vars);
 }
