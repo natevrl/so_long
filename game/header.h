@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/16 23:53:13 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/17 00:37:08 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_mlx
 
 t_mlx   *init_all(char *path);
 void    init_map(t_mlx *vars, char *str);
-void    map_size(t_mlx *vars, char *str);
+void    map_size(t_mlx *vars, char *path);
 void    init_tuples_walls(t_mlx *vars);
 void    init_tuples_collecibles(t_mlx *vars);
 
