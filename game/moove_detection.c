@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:46:37 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 23:49:56 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 15:25:12 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ int	is_escape(t_mlx *vars, int x, int y)
 	if (x == vars->walls->x[0] && y == vars->walls->y[0])
 	{
 		if (vars->collectible->touched == vars->collectible->max)
-		{
-			compteur_de_pas();
 			mlx_loop_end(vars->mlx);
-		}
 		else
 			return (1);
 	}
@@ -73,12 +70,10 @@ int	is_enemies(t_mlx *vars, int x, int y)
 		if (x == vars->enemies->x[i] && y == vars->enemies->y[i])
 		{
 			mlx_destroy_image(vars->mlx, vars->player->img);
-			vars->player->r_path = "./images/enemies.xpm";
+			vars->player->r_path = "./images/dead.xpm";
 			vars->player->img = mlx_xpm_file_to_image(vars->mlx,
 					vars->player->r_path, &vars->player->img_width,
 					&vars->player->img_height);
-			mlx_put_image_to_window(vars->mlx, vars->mlx_win,
-				vars->player->img, x, y);
 			vars->enemies->touched = 1;
 			return (1);
 		}
