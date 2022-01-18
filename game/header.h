@@ -6,7 +6,7 @@
 /*   By: nbenhado <nbenhado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/18 20:53:51 by nbenhado         ###   ########.fr       */
+/*   Updated: 2022/01/18 23:45:45 by nbenhado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ int		is_enemies(t_mlx *vars, int x, int y);
 int		moove_player(int keycode, t_mlx *vars);
 
 // put sprites
-int	put_wall(t_mlx *vars, int x, int y);
-int	put_ground(t_mlx *vars, int x, int y);
-int	put_collectible(t_mlx *vars, int x, int y);
-int	put_escape(t_mlx *vars, int x, int y);
-int	put_player(t_mlx *vars, int x, int y);
-int	put_enemies(t_mlx *vars, int x, int y);
+int		put_wall(t_mlx *vars, int x, int y);
+int		put_ground(t_mlx *vars, int x, int y);
+int		put_collectible(t_mlx *vars, int x, int y);
+int		put_escape(t_mlx *vars, int x, int y);
+int		put_player(t_mlx *vars, int x, int y);
+int		put_enemies(t_mlx *vars, int x, int y);
 
 //error
 void	malloc_error(t_mlx *vars);
@@ -108,6 +108,7 @@ void	check_open_error(t_mlx *vars, int fd);
 void	check_read_error(t_mlx *vars, int ret, char *str);
 int		walls_error(t_mlx *vars, int line, char *gnl);
 int		line_bad_len(t_mlx *vars, char *gnl);
+int		free_return(char *str);
 
 //utils
 int		intstrlen(char *str);

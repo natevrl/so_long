@@ -6,7 +6,7 @@
 /*   By: nbenhado <nbenhado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/18 22:45:33 by nbenhado         ###   ########.fr       */
+/*   Updated: 2022/01/18 23:23:46 by nbenhado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	moove_player(int keycode, t_mlx *vars)
 {
 	if (keycode == 65307)
 		mlx_loop_end(vars->mlx);
-
 	if (vars->enemies->touched == 0)
 		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->maps->img,
 			vars->player->x, vars->player->y);

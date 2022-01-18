@@ -3,7 +3,8 @@ SRCS =	game/kill.c\
 		game/moove_detection.c\
 		game/init_game.c\
 		game/main.c\
-		game/maps.c\
+		game/draw_map.c\
+		game/map_parsing.c\
 		game/player_moove.c\
 		game/error.c\
 		game/utils.c\

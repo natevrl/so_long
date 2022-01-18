@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nbenhado <nbenhado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 19:00:31 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/18 14:37:09 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 23:45:53 by nbenhado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ void	check_read_error(t_mlx *vars, int ret, char *str)
 		perror("Error\nread() error");
 		kill_all(vars);
 	}
+}
+
+int	free_return(char *str)
+{
+	free(str);
+	return (0);
 }
