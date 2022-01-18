@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 19:00:31 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 22:57:28 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 14:37:09 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void	malloc_error(t_mlx *vars)
 	kill_all(vars);
 }
 
-void	invalid_map_error(t_mlx *vars)
+void	invalid_map_error(t_mlx *vars, char *str)
 {
+	if (str)
+		free(str);
 	printf("Error\nInvalid map\n");
 	kill_all(vars);
 }

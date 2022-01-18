@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:41:09 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 23:42:35 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 14:37:38 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ static void	count_elements(t_mlx *vars, char *buffer)
 		else if (buffer[i] == 'E')
 			vars->is_escape++;
 		else if (buffer[i] != '\n' && buffer[i] != '0')
-			invalid_map_error(vars);
+			invalid_map_error(vars, buffer);
 		if (buffer[i] == '\n' || buffer[i + 1] == '\0')
 			vars->win_height++;
 		i++;
 	}
 	if (vars->collectible->max == 0 || vars->is_escape != 1
 		|| vars->is_player != 1)
-		invalid_map_error(vars);
+		invalid_map_error(vars, buffer);
 	vars->win_width = ((i + 1) - vars->win_height) / vars->win_height;
 }
 
@@ -119,6 +119,6 @@ void	map_drawer(t_mlx *vars, char *str)
 	vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->r_path,
 			&vars->maps->img_width, &vars->maps->img_height);
 	if (error > 0)
-		invalid_map_error(vars);
+		invalid_map_error(vars, 0);
 	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:36:54 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 22:57:06 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 14:43:22 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **av)
 {
 	if (ac != 2)
 	{
-		printf("Error\nInvalid number of arguments");
+		printf("Error\nInvalid number of arguments\n");
 		return (0);
 	}
 	if (isnot_ber(av[1]) != 0)

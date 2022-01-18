@@ -6,7 +6,7 @@
 /*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/17 23:49:49 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 14:37:25 by v3r              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	put_enemies(t_mlx *vars, int x, int y);
 
 //error
 void	malloc_error(t_mlx *vars);
-void	invalid_map_error(t_mlx *vars);
+void	invalid_map_error(t_mlx *vars, char *str);
 void	check_open_error(t_mlx *vars, int fd);
 void	check_read_error(t_mlx *vars, int ret, char *str);
 int		walls_error(t_mlx *vars, int line, char *gnl);
