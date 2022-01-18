@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maps.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nbenhado <nbenhado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 22:41:09 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/18 14:37:38 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 22:49:26 by nbenhado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,13 @@ void	map_parsing(t_mlx *vars, char *str)
 	close(fd);
 }
 
-static void	draw_line(t_mlx *vars, char *gnl)
+int free_return(char *str)
+{
+	free(str);
+	return (0);
+}
+
+static int	draw_line(t_mlx *vars, char *gnl)
 {
 	int			i;
 	int			x;
@@ -77,21 +83,56 @@ static void	draw_line(t_mlx *vars, char *gnl)
 	while (gnl[++i])
 	{
 		if (gnl[i] == '1')
-			put_wall(vars, x, y);
+		{
+			if (!(put_wall(vars, x, y)))
+				return(free_return(gnl));
+		}
 		else if (gnl[i] == 'C')
-			put_collectible(vars, x, y);
-		else if (gnl[i] == 'E')
-			put_escape(vars, x, y);
-		else if (gnl[i] == 'P')
-			put_player(vars, x, y);
+		{
+			if (!(put_collectible(vars, x, y)))
+				return(free_return(gnl));
+		}
 		else if (gnl[i] == '0')
-			put_ground(vars, x, y);
-		else if (gnl[i] == 'N')
-			put_enemies(vars, x, y);
+		{
+			if (!(put_ground(vars, x, y)))
+				return(free_return(gnl));
+		}
+
 		x += IMG_BITS;
 	}
 	y += IMG_BITS;
-	free(gnl);
+	return (1);
+}
+
+static int	draw_line_bis(t_mlx *vars, char *gnl)
+{
+	int			i;
+	int			x;
+	static int	y = 0;
+
+	i = -1;
+	x = 0;
+	while (gnl[++i])
+	{
+		if (gnl[i] == 'N')
+		{
+			if (!(put_enemies(vars, x, y)))
+				return(free_return(gnl));
+		}
+		else if (gnl[i] == 'E')
+		{
+			if (!(put_escape(vars, x, y)))
+				return(free_return(gnl));
+		}
+		else if (gnl[i] == 'P')
+		{
+			if (!(put_player(vars, x, y)))
+				return(free_return(gnl));
+		}
+		x += IMG_BITS;
+	}
+	y += IMG_BITS;
+	return (1);
 }
 
 void	map_drawer(t_mlx *vars, char *str)
@@ -112,12 +153,16 @@ void	map_drawer(t_mlx *vars, char *str)
 			break ;
 		if (line_bad_len(vars, gnl) || walls_error(vars, line, gnl))
 			error++;
-		draw_line(vars, gnl);
+		if (!(draw_line(vars, gnl)) || !(draw_line_bis(vars, gnl)))
+			error++;
+		else
+			free(gnl);
 		line++;
 	}
 	vars->maps->r_path = "./images/center.xpm";
-	vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->r_path,
-			&vars->maps->img_width, &vars->maps->img_height);
+	if (!(vars->maps->img = mlx_xpm_file_to_image(vars->mlx, vars->maps->r_path,
+			&vars->maps->img_width, &vars->maps->img_height)))
+			error++;
 	if (error > 0)
 		invalid_map_error(vars, 0);
 	close(fd);

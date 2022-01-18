@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nbenhado <nbenhado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:43 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/18 14:37:25 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 20:53:51 by nbenhado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <string.h>
 # include <errno.h>
-# include <mlx.h>
+# include "../minilibx-linux/mlx.h"
 # include "../libs/get_next_line/get_next_line.h"
 # include "../libs/libft/libft.h"
 
@@ -94,12 +94,12 @@ int		is_enemies(t_mlx *vars, int x, int y);
 int		moove_player(int keycode, t_mlx *vars);
 
 // put sprites
-void	put_wall(t_mlx *vars, int x, int y);
-void	put_ground(t_mlx *vars, int x, int y);
-void	put_collectible(t_mlx *vars, int x, int y);
-void	put_escape(t_mlx *vars, int x, int y);
-void	put_player(t_mlx *vars, int x, int y);
-void	put_enemies(t_mlx *vars, int x, int y);
+int	put_wall(t_mlx *vars, int x, int y);
+int	put_ground(t_mlx *vars, int x, int y);
+int	put_collectible(t_mlx *vars, int x, int y);
+int	put_escape(t_mlx *vars, int x, int y);
+int	put_player(t_mlx *vars, int x, int y);
+int	put_enemies(t_mlx *vars, int x, int y);
 
 //error
 void	malloc_error(t_mlx *vars);

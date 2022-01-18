@@ -15,7 +15,8 @@ SRCS =	game/kill.c\
 
 OBJS		= $(SRCS:.c=.o)
 LIBFT		= libs/libft/libft.a
-MINILIBX	= minilibx-linux/obj/*.o
+#MINILIBX	= minilibx-linux/obj/*.o
+MINILIBX2	= -L ./minilibx-linux/
 
 
 CC			= gcc
@@ -37,14 +38,13 @@ all : $(NAME)
 
 $(NAME): $(OBJS)
 	make -C libs/libft/
-	make -C minilibx-linux
-	$(CC)  $(OBJS) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) ${MINILIBX} ${LIBFT}
+	$(CC) $(OBJS) -I ./game -o $(NAME) ${LIBFT} ${MINILIBX2} -lmlx -lXext -lX11 -lm
+	#$(CC) $(OBJS) -Imlx_linux -o $(NAME) ${MINILIBX} ${LIBFT} ${MINILIBX2} -lXext -lX11 -lmlx -lm -lz 
 
 
 clean : 
 	rm -f $(OBJS)
 	make fclean -C libs/libft/
-	make clean -C minilibx-linux
 
 fclean : clean
 	rm -f $(NAME)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_moove.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: v3r <v3r@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nbenhado <nbenhado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 18:41:47 by v3r               #+#    #+#             */
-/*   Updated: 2022/01/18 15:30:21 by v3r              ###   ########.fr       */
+/*   Updated: 2022/01/18 22:45:33 by nbenhado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	moove_player(int keycode, t_mlx *vars)
 {
 	if (keycode == 65307)
 		mlx_loop_end(vars->mlx);
+
 	if (vars->enemies->touched == 0)
 		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->maps->img,
 			vars->player->x, vars->player->y);
@@ -46,6 +47,8 @@ int	moove_player(int keycode, t_mlx *vars)
 	if ((keycode == DOWN || keycode == DOWNA)
 		&& ucango(vars, vars->player->x, vars->player->y + IMG_BITS))
 		vars->player->y += IMG_BITS;
+	if (!vars->player->img)
+		invalid_map_error(vars, NULL);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player->img,
 		vars->player->x, vars->player->y);
 	return (0);
